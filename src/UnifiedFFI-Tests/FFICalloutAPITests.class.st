@@ -13,6 +13,11 @@ FFICalloutAPITests >> ffiCalloutClass [
 ]
 
 { #category : #'primitives atomic' }
+FFICalloutAPITests >> ffiCalloutNestedStructure: aStruct [ 
+	^ self ffiCall: #( int getpid (FFITestStructure aStruct) )
+]
+
+{ #category : #'primitives atomic' }
 FFICalloutAPITests >> ffiCopyString: aString to: dest [
 	^ self ffiCall: #( String strcpy ( String dest, String aString ) )
 ]
@@ -161,6 +166,13 @@ FFICalloutAPITests >> testCallWithConstParameter [
 	result := self ffiTestContantFormat: '%d, %d and %d' value: true to: buffer.
 	self assert: result equals: 12.
 	self assert: (buffer first: result) asString equals: '65, 65 and 1'
+]
+
+{ #category : #'tests atomic' }
+FFICalloutAPITests >> testCallWithNestedStruct [
+	| struct |
+	struct := FFITestNestingStructure new.
+	self ffiCalloutNestedStructure: struct nested.
 ]
 
 { #category : #'tests object' }
